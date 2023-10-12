@@ -287,6 +287,10 @@ const FormValidation = () => {
                                   value="התקפת סייבר"
                                   label="התקפת סייבר"
                                 />
+                                <option
+                                  value="ישראל בידור"
+                                  label="ישראל בידור"
+                                />
                                 <option value="כללי" label="כללי" />
                                 <option value="דיור" label="דיור" />
                                 <option value="נעדר" label="נעדר" />

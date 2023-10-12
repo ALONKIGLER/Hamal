@@ -41,7 +41,7 @@ const BootstrapTable = () => {
         setUser(user.email);
         console.log("lol");
         if (
-          user.email === "wounded@gmail.com" ||
+          user.email === "israelbidur@gmail.com" ||
           user.email === "k@gmail.com"
         ) {
           fetchOrders();
@@ -112,7 +112,7 @@ const BootstrapTable = () => {
         "https://kiglerserver.com/api/v1/citizen"
       ); // Adjust the API endpoint
       const filteredData = response.data.filter(
-        (item) => item.assistanceType === "פצוע"
+        (item) => item.assistanceType === "ישראל בידור"
       );
       setcitizenConst(filteredData);
 
@@ -204,7 +204,7 @@ const BootstrapTable = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      if (userName === "wounded@gmail.com") setAuthUser(true);
+      if (userName === "israelbidur@gmail.com") setAuthUser(true);
     } catch {
       setNotice("You entered a wrong username or password.");
     }
@@ -333,7 +333,7 @@ const BootstrapTable = () => {
                         </div>
                       </div>
                     </div>
-                    <p> פניות- פצוע</p>
+                    <p> פניות- ישראל בידור</p>
                   </Card.Title>
                 </Card.Header>
                 <Card.Body>

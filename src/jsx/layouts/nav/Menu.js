@@ -29,21 +29,23 @@ export const MenuList = [
         title: " דיור",
         to: "Citizen_requests9",
       },
-      {
-        title: " נעדר",
-        to: "Citizen_requests10",
-      },
+   
       {
         title: " מזון",
         to: "Citizen_requests11",
       },
-      {
-        title: " פצוע",
-        to: "Citizen_requests12",
-      },
+   
       {
         title: " כלכלי",
         to: "Citizen_requests13",
+      },
+      {
+        title: " חמל דרום",
+        to: "Citizen_requests10",
+      },
+      {
+        title: " ישראל בידור",
+        to: "Citizen_requests12",
       },
       {
         title: " חמל חבל לכיש",
