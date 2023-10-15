@@ -371,7 +371,7 @@ const FormValidation = () => {
                           <div>
                             {" "}
                             <ReCAPTCHA
-                              sitekey="6LcyMYcoAAAAAN-WuegpQaVf-bhRP47IdJAjF-mi"
+                              sitekey="6LfJ7JYoAAAAAEqMI9jxDiI0vXSyozDDI6S9ezn4"
                               onChange={onChange}
                             />
                           </div>

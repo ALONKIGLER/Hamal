@@ -78,6 +78,7 @@ const BootstrapTable = () => {
   const [notice, setNotice] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [del, setDel] = useState(false);
+  const [Token, setToken] = useState("");
 
   const handleSubmit2 = async (e) => {
     e.preventDefault();
@@ -105,20 +106,28 @@ const BootstrapTable = () => {
   }, [del, isSubmitted]);
 
   const fetchOrders = async () => {
-    try {
-      const response = await axios.get(
-        "https://kiglerserver.com/api/v1/citizen"
-      ); // Adjust the API endpoint
-      const filteredData = response.data.filter(
-        (item) => item.assistanceType === "התקפת סייבר"
-      );
-      setcitizenConst(filteredData);
+    if(Token){
 
-      setcitizen(filteredData);
-      setStatus22(!status22);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    }
+      try {
+          const response = await axios.get(
+        "https://kiglerserver.com/api/v1/citizen",
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`, // Add the token to the Authorization header
+          },
+        }
+      );
+          const filteredData = response.data.filter(
+            (item) => item.assistanceType === "התקפת סייבר"
+            );
+            setcitizenConst(filteredData);
+            
+            setcitizen(filteredData);
+            setStatus22(!status22);
+          } catch (error) {
+            console.error("Error fetching orders:", error);
+          }
+        }
   };
 
   const deleteProduct = async (orderId) => {
@@ -201,7 +210,11 @@ const BootstrapTable = () => {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const userToken = await user.getIdToken();
+      console.log(userToken)
+      setToken(userToken)
       if (userName === "cyber@gmail.com") setAuthUser(true);
     } catch {
       setNotice("You entered a wrong username or password.");
