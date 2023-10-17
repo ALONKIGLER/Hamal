@@ -108,6 +108,7 @@ import BootstrapTable14 from "./components/table/BootstrapTable14";
 import BootstrapTable15 from "./components/table/BootstrapTable15";
 import BootstrapTable17 from "./components/table/BootstrapTable17";
 import BootstrapTable18 from "./components/table/BootstrapTable18";
+import BootstrapTable20 from "./components/table/BootstrapTable20";
 
 /// Form
 import Element from "./components/Forms/Element/Element";
@@ -131,7 +132,7 @@ const Markup = () => {
   // const { menuToggle } = useContext(ThemeContext);
   const allroutes = [
     /// Dashboard
-    { url: "", component: <Wizard /> },
+    { url: "", component: <FormValidation /> },
     { url: "dashboard", component: <Home /> },
     { url: "dashboard-dark", component: <DashboardDark /> },
     { url: "guest-list", component: <GuestList /> },
@@ -236,6 +237,7 @@ const Markup = () => {
     { url: "Citizen_requests14", component: <BootstrapTable14 /> },
     { url: "Citizen_requests17", component: <BootstrapTable17 /> },
     { url: "Citizen_requests18", component: <BootstrapTable18 /> },
+    { url: "Citizen_requests20", component: <BootstrapTable20 /> },
     { url: "hamal1", component: <BootstrapTable15 /> },
 
     /// pages

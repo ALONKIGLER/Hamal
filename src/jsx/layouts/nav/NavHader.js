@@ -20,7 +20,7 @@ const NavHader = () => {
     useContext(ThemeContext);
   return (
     <div className="nav-header">
-      <Link to="/form-wizard" className="brand-logo">
+      <Link to="/form-validation" className="brand-logo">
         <Fragment>
           <svg
             version="1.0"

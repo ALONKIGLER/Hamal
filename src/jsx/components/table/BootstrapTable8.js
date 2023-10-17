@@ -39,7 +39,8 @@ const BootstrapTable = () => {
         const uid = user.uid;
         setAuthUser(true);
         setUser(user.email);
-        console.log("lol");
+        setToken(user.accessToken);
+        console.log("lol", user.accessToken);
         if (user.email === "cyber@gmail.com" || user.email === "k@gmail.com") {
           fetchOrders();
         }
@@ -106,35 +107,41 @@ const BootstrapTable = () => {
   }, [del, isSubmitted]);
 
   const fetchOrders = async () => {
-    if(Token){
-
+    if (Token) {
       try {
-          const response = await axios.get(
-        "https://kiglerserver.com/api/v1/citizen",
-        {
-          headers: {
-            Authorization: `Bearer ${Token}`, // Add the token to the Authorization header
-          },
-        }
-      );
-          const filteredData = response.data.filter(
-            (item) => item.assistanceType === "התקפת סייבר"
-            );
-            setcitizenConst(filteredData);
-            
-            setcitizen(filteredData);
-            setStatus22(!status22);
-          } catch (error) {
-            console.error("Error fetching orders:", error);
+        const response = await axios.get(
+          "http://209.38.208.60/api/v1/citizen/",
+          {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+              Email: user, // Add the token to the Authorization header
+            },
           }
-        }
+        );
+        const filteredData = response.data.filter(
+          (item) => item.assistanceType === "התקפת סייבר"
+        );
+        setcitizenConst(filteredData);
+
+        setcitizen(filteredData);
+        setStatus22(!status22);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    }
   };
 
   const deleteProduct = async (orderId) => {
     console.log("Deleting order:", orderId);
     try {
       const response = await axios.delete(
-        `https://kiglerserver.com/api/v1/citizen/${orderId}`
+        `http://209.38.208.60/api/v1/citizen/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
       setDel(!status22);
     } catch (error) {
@@ -179,8 +186,14 @@ const BootstrapTable = () => {
     console.log("product:", edit_id);
     try {
       const response = await axios.patch(
-        `https://kiglerserver.com/api/v1/citizen/${edit_id}`,
-        formData
+        `http://209.38.208.60/api/v1/citizen/${edit_id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
 
       setStatus22(!status22);
@@ -189,8 +202,7 @@ const BootstrapTable = () => {
       setFormData(formData); // Reset form fields after successful submission
       console.error("product:", formData);
     } catch (error) {
-      console.error("Error creating product:", error);
-      console.error("Error creating product:");
+      console.error("Error updating product:", error);
     }
   };
 
@@ -210,11 +222,15 @@ const BootstrapTable = () => {
     e.preventDefault();
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
       const userToken = await user.getIdToken();
-      console.log(userToken)
-      setToken(userToken)
+      console.log(userToken);
+      setToken(userToken);
       if (userName === "cyber@gmail.com") setAuthUser(true);
     } catch {
       setNotice("You entered a wrong username or password.");

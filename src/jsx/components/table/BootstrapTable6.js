@@ -28,7 +28,7 @@ const BootstrapTable6 = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        "https://kiglerserver.com/api/v1/contactUs/"
+        "http://209.38.208.60/api/v1/contactUs/"
       ); // Adjust the API endpoint
       setEmail(response.data);
     } catch (error) {
@@ -41,7 +41,7 @@ const BootstrapTable6 = () => {
 
     try {
       const response = await axios.delete(
-        `https://kiglerserver.com/api/v1/contactUs/${emailId}`
+        `http://209.38.208.60/api/v1/contactUs/${emailId}`
       );
       setStatus(!status);
     } catch (error) {

@@ -14,8 +14,8 @@ export const MenuList = [
         to: "form-validation",
       },
       {
-        title: " כללי",
-        to: "table-bootstrap-basic7",
+        title: " --ישראל בידור--",
+        to: "Citizen_requests20",
       },
       // {
       //   title: " מתנדבים",
@@ -29,40 +29,40 @@ export const MenuList = [
         title: " דיור",
         to: "Citizen_requests9",
       },
-   
+
       {
         title: " מזון",
         to: "Citizen_requests11",
       },
-   
+
       {
         title: " כלכלי",
         to: "Citizen_requests13",
       },
-      {
-        title: " חמל דרום",
-        to: "Citizen_requests10",
-      },
-      {
-        title: " ישראל בידור",
-        to: "Citizen_requests12",
-      },
+      // {
+      //   title: " חמל דרום",
+      //   to: "Citizen_requests10",
+      // },
+      // {
+      //   title: " ישראל בידור",
+      //   to: "Citizen_requests12",
+      // },
       {
         title: " חמל חבל לכיש",
         to: "Citizen_requests14",
       },
-      {
-        title: "חמל לאודר",
-        to: "hamal1",
-      },
+      // {
+      //   title: "חמל לאודר",
+      //   to: "hamal1",
+      // },
       {
         title: "קפה הספסל ברמת גן",
         to: "Citizen_requests17",
       },
-      {
-        title: "מנהלים",
-        to: "Citizen_requests18",
-      },
+      // {
+      //   title: "מנהלים",
+      //   to: "Citizen_requests18",
+      // },
       // {
       //   title: " כללי",
       //   to: "table-bootstrap-basic14",

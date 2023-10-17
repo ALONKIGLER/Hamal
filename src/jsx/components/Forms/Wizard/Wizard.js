@@ -30,7 +30,7 @@ const Wizard = () => {
       try {
         // Sending data to the server using Axios
         const response = await axios.post(
-          "https://kiglerserver.com/api/v1/citizen",
+          "http://209.38.208.60/api/v1/citizen",
           formData
         );
 

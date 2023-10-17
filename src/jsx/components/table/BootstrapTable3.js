@@ -142,9 +142,7 @@ const GuestList = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(
-        "https://kiglerserver.com/api/v1/order/"
-      ); // Adjust the API endpoint
+      const response = await axios.get("http://209.38.208.60/api/v1/order/"); // Adjust the API endpoint
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -157,7 +155,7 @@ const GuestList = () => {
 
     try {
       const response = await axios.delete(
-        `https://kiglerserver.com/api/v1/order/${orderId}`
+        `http://209.38.208.60/api/v1/order/${orderId}`
       );
       setStatus(!status);
     } catch (error) {
@@ -174,7 +172,7 @@ const GuestList = () => {
     const url = newOrder["_id"];
     try {
       const response = await axios.patch(
-        `https://kiglerserver.com/api/v1/order/${url}`,
+        `http://209.38.208.60/api/v1/order/${url}`,
         newOrder
       );
       setStatus(!status);

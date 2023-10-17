@@ -29,6 +29,8 @@ const BootstrapTable = () => {
   const [authUser, setAuthUser] = useState(false);
   const [userName, setUserName] = useState("");
   const [user, setUser] = useState("");
+  const [citizenConst, setcitizenConst] = useState([]);
+  const [Token, setToken] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -38,6 +40,7 @@ const BootstrapTable = () => {
         const uid = user.uid;
         setAuthUser(true);
         setUser(user.email);
+        setToken(user.accessToken);
         console.log("lol");
         if (user.email === "safsal@gmail.com" || user.email === "k@gmail.com") {
           fetchOrders();
@@ -59,7 +62,6 @@ const BootstrapTable = () => {
       </g>
     </svg>
   );
-  const [citizenConst, setcitizenConst] = useState([]);
   const [citizen, setcitizen] = useState([]);
   const [status22, setStatus22] = useState(true);
   const handleClose = () => setShow(false);
@@ -103,27 +105,43 @@ const BootstrapTable = () => {
       fetchOrders();
     }
   }, [del, isSubmitted]);
-  const fetchOrders = async () => {
-    try {
-      const response = await axios.get(
-        "https://kiglerserver.com/api/v1/citizen"
-      ); // Adjust the API endpoint
-      const filteredData = response.data.filter(
-        (item) => item.assistanceType === "קפה הספסל ברמת גן"
-      );
 
-      setcitizen(filteredData);
-      setcitizenConst(filteredData);
-      setStatus22(!status22);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+  const fetchOrders = async () => {
+    if (Token) {
+      try {
+        const response = await axios.get(
+          "http://209.38.208.60/api/v1/citizen/",
+          {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+              Email: user, // Add the token to the Authorization header
+            },
+          }
+        );
+        const filteredData = response.data.filter(
+          (item) => item.assistanceType === "קפה הספסל ברמת גן"
+        );
+        setcitizenConst(filteredData);
+        setcitizen(filteredData);
+        setStatus22(!status22);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setAuthUser(true);
+      }
     }
   };
+
   const deleteProduct = async (orderId) => {
     console.log("Deleting order:", orderId);
     try {
       const response = await axios.delete(
-        `https://kiglerserver.com/api/v1/citizen/${orderId}`
+        `http://209.38.208.60/api/v1/citizen/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
       setDel(!status22);
     } catch (error) {
@@ -161,15 +179,20 @@ const BootstrapTable = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("product:", formData);
     console.log("product:", edit_id);
     try {
       const response = await axios.patch(
-        `https://kiglerserver.com/api/v1/citizen/${edit_id}`,
-        formData
+        `http://209.38.208.60/api/v1/citizen/${edit_id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
 
       setStatus22(!status22);
@@ -178,8 +201,7 @@ const BootstrapTable = () => {
       setFormData(formData); // Reset form fields after successful submission
       console.error("product:", formData);
     } catch (error) {
-      console.error("Error creating product:", error);
-      console.error("Error creating product:");
+      console.error("Error updating product:", error);
     }
   };
 
@@ -199,7 +221,15 @@ const BootstrapTable = () => {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const userToken = await user.getIdToken();
+      console.log(userToken);
+      setToken(userToken);
       if (userName === "safsal@gmail.com") setAuthUser(true);
     } catch {
       setNotice("You entered a wrong username or password.");
@@ -213,8 +243,6 @@ const BootstrapTable = () => {
     setAuthUser(false);
   };
 
-  // const [citizen, setcitizen] = useState([]);
-  // const [citizen, setcitizen] = useState([]);
   const [citizenfi, setcitizenfi] = useState("");
 
   const search = async (e) => {
@@ -240,16 +268,22 @@ const BootstrapTable = () => {
     return (
       <>
         <Fragment>
+          {/* <PageTitle activeMenu="פניות" motherMenu="טבלה" /> */}
           <div className="row">
             <div className="col-lg-12">
               <div className="profile card card-body px-3 pt-3 pb-0">
                 <div className="profile-head">
-                  <div className="photo-content "></div>
+                  <div className="photo-content ">
+                    {/* <div className="cover-photo rounded"></div> */}
+                  </div>
                   <div className="profile-info">
                     <div
                       className="profile-name px-3 pt-2"
                       style={{
+                        //   textAlign: "right",
                         textAlign: "center",
+                        //   fontSize: "1rem",
+                        //   margin: "center",
                       }}
                     >
                       <h3 className="text-red">
@@ -267,9 +301,7 @@ const BootstrapTable = () => {
               </div>
             </div>
           </div>
-        </Fragment>
 
-        <Fragment>
           <Row>
             <Col lg={12}>
               <Card>
@@ -326,7 +358,7 @@ const BootstrapTable = () => {
                         </div>
                       </div>
                     </div>
-                    <p>פניות- קפה הספסל ברמת גן</p>
+                    <p>פניות- דיור</p>
                   </Card.Title>
                 </Card.Header>
                 <Card.Body>
@@ -437,7 +469,6 @@ const BootstrapTable = () => {
             </Col>
           </Row>
         </Fragment>
-
         <Modal show={show} onHide={handleClose} className="bd-example-modal-lg">
           <div className="col-xl-12    col-lg-12">
             <div className="card">
@@ -544,7 +575,7 @@ const BootstrapTable = () => {
                     className="basic-form"
                     style={{ textAlign: "right", margin: "5px" }}
                   >
-                    {detaildAssistanceDetails}{" "}
+                    {detaildAssistanceDetails}
                   </div>
                   <div className="basic-form"></div>
                 </div>

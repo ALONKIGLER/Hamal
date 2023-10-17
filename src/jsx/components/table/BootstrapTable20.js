@@ -30,6 +30,7 @@ const BootstrapTable = () => {
   const [userName, setUserName] = useState("");
   const [user, setUser] = useState("");
   const [citizenConst, setcitizenConst] = useState([]);
+  const [Token, setToken] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -39,9 +40,12 @@ const BootstrapTable = () => {
         const uid = user.uid;
         setAuthUser(true);
         setUser(user.email);
-
+        setToken(user.accessToken);
         console.log("lol");
-        if (user.email === "hamal1@gmail.com" || user.email === "k@gmail.com") {
+        if (
+          user.email === "israelbidur@gmail.com" ||
+          user.email === "k@gmail.com"
+        ) {
           fetchOrders();
         }
       } else {
@@ -106,17 +110,27 @@ const BootstrapTable = () => {
   }, [del, isSubmitted]);
 
   const fetchOrders = async () => {
-    try {
-      const response = await axios.get("http://209.38.208.60/api/v1/citizen"); // Adjust the API endpoint
-      const filteredData = response.data.filter(
-        (item) => item.assistanceType === "חמל לאודר"
-      );
-      setcitizenConst(filteredData);
-
-      setcitizen(filteredData);
-      setStatus22(!status22);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+    if (Token) {
+      try {
+        const response = await axios.get(
+          "http://209.38.208.60/api/v1/citizen/",
+          {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+              Email: user, // Add the token to the Authorization header
+            },
+          }
+        );
+        const filteredData = response.data.filter(
+          (item) => item.assistanceType === "ישראל בידור"
+        );
+        setcitizenConst(filteredData);
+        setcitizen(filteredData);
+        setStatus22(!status22);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setAuthUser(true);
+      }
     }
   };
 
@@ -124,7 +138,13 @@ const BootstrapTable = () => {
     console.log("Deleting order:", orderId);
     try {
       const response = await axios.delete(
-        `http://209.38.208.60/api/v1/citizen/${orderId}`
+        `http://209.38.208.60/api/v1/citizen/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
       setDel(!status22);
     } catch (error) {
@@ -162,7 +182,6 @@ const BootstrapTable = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("product:", formData);
@@ -170,7 +189,13 @@ const BootstrapTable = () => {
     try {
       const response = await axios.patch(
         `http://209.38.208.60/api/v1/citizen/${edit_id}`,
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
 
       setStatus22(!status22);
@@ -179,8 +204,7 @@ const BootstrapTable = () => {
       setFormData(formData); // Reset form fields after successful submission
       console.error("product:", formData);
     } catch (error) {
-      console.error("Error creating product:", error);
-      console.error("Error creating product:");
+      console.error("Error updating product:", error);
     }
   };
 
@@ -200,8 +224,16 @@ const BootstrapTable = () => {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      if (userName === "hamal1@gmail.com") setAuthUser(true);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const userToken = await user.getIdToken();
+      console.log(userToken);
+      setToken(userToken);
+      if (userName === "israelbidur@gmail.com") setAuthUser(true);
     } catch {
       setNotice("You entered a wrong username or password.");
     }
@@ -213,8 +245,7 @@ const BootstrapTable = () => {
     await signOut(auth);
     setAuthUser(false);
   };
-  // const [citizen, setcitizen] = useState([]);
-  // const [citizen, setcitizen] = useState([]);
+
   const [citizenfi, setcitizenfi] = useState("");
 
   const search = async (e) => {
@@ -330,7 +361,7 @@ const BootstrapTable = () => {
                         </div>
                       </div>
                     </div>
-                    <p>פניות- חמל לאודר</p>
+                    <p>פניות - ישראל בידור</p>
                   </Card.Title>
                 </Card.Header>
                 <Card.Body>

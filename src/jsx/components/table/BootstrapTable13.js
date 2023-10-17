@@ -30,6 +30,7 @@ const BootstrapTable = () => {
   const [userName, setUserName] = useState("");
   const [user, setUser] = useState("");
   const [citizenConst, setcitizenConst] = useState([]);
+  const [Token, setToken] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -39,7 +40,7 @@ const BootstrapTable = () => {
         const uid = user.uid;
         setAuthUser(true);
         setUser(user.email);
-
+        setToken(user.accessToken);
         console.log("lol");
         if (
           user.email === "economic@gmail.com" ||
@@ -109,19 +110,27 @@ const BootstrapTable = () => {
   }, [del, isSubmitted]);
 
   const fetchOrders = async () => {
-    try {
-      const response = await axios.get(
-        "https://kiglerserver.com/api/v1/citizen"
-      ); // Adjust the API endpoint
-      const filteredData = response.data.filter(
-        (item) => item.assistanceType === "כלכלי"
-      );
-      setcitizenConst(filteredData);
-
-      setcitizen(filteredData);
-      setStatus22(!status22);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
+    if (Token) {
+      try {
+        const response = await axios.get(
+          "http://209.38.208.60/api/v1/citizen/",
+          {
+            headers: {
+              Authorization: `Bearer ${Token}`,
+              Email: user, // Add the token to the Authorization header
+            },
+          }
+        );
+        const filteredData = response.data.filter(
+          (item) => item.assistanceType === "כלכלי"
+        );
+        setcitizenConst(filteredData);
+        setcitizen(filteredData);
+        setStatus22(!status22);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setAuthUser(true);
+      }
     }
   };
 
@@ -129,7 +138,13 @@ const BootstrapTable = () => {
     console.log("Deleting order:", orderId);
     try {
       const response = await axios.delete(
-        `https://kiglerserver.com/api/v1/citizen/${orderId}`
+        `http://209.38.208.60/api/v1/citizen/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
       setDel(!status22);
     } catch (error) {
@@ -167,15 +182,20 @@ const BootstrapTable = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("product:", formData);
     console.log("product:", edit_id);
     try {
       const response = await axios.patch(
-        `https://kiglerserver.com/api/v1/citizen/${edit_id}`,
-        formData
+        `http://209.38.208.60/api/v1/citizen/${edit_id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${Token}`,
+            Email: user, // Add the token to the Authorization header
+          },
+        }
       );
 
       setStatus22(!status22);
@@ -184,8 +204,7 @@ const BootstrapTable = () => {
       setFormData(formData); // Reset form fields after successful submission
       console.error("product:", formData);
     } catch (error) {
-      console.error("Error creating product:", error);
-      console.error("Error creating product:");
+      console.error("Error updating product:", error);
     }
   };
 
@@ -205,7 +224,15 @@ const BootstrapTable = () => {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const userToken = await user.getIdToken();
+      console.log(userToken);
+      setToken(userToken);
       if (userName === "economic@gmail.com") setAuthUser(true);
     } catch {
       setNotice("You entered a wrong username or password.");
@@ -218,8 +245,7 @@ const BootstrapTable = () => {
     await signOut(auth);
     setAuthUser(false);
   };
-  // const [citizen, setcitizen] = useState([]);
-  // const [citizen, setcitizen] = useState([]);
+
   const [citizenfi, setcitizenfi] = useState("");
 
   const search = async (e) => {
@@ -335,7 +361,7 @@ const BootstrapTable = () => {
                         </div>
                       </div>
                     </div>
-                    <p>פניות- כלכלי</p>
+                    <p>פניות - כלכלי</p>
                   </Card.Title>
                 </Card.Header>
                 <Card.Body>

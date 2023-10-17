@@ -104,9 +104,7 @@ const BootstrapTable = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(
-        "https://kiglerserver.com/api/v1/citizen"
-      ); // Adjust the API endpoint
+      const response = await axios.get("http://209.38.208.60/api/v1/citizen"); // Adjust the API endpoint
       const filteredData = response.data.filter(
         (item) => item.assistanceType === "כלכלי"
       );
@@ -166,7 +164,7 @@ const BootstrapTable = () => {
     console.log("product:", edit_id);
     try {
       const response = await axios.patch(
-        `https://kiglerserver.com/api/v1/citizen/${edit_id}`,
+        `http://209.38.208.60/api/v1/citizen/${edit_id}`,
         formData
       );
 

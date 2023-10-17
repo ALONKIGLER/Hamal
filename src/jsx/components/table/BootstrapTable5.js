@@ -27,7 +27,7 @@ const BootstrapTable5 = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("https://kiglerserver.com/api/v1/email"); // Adjust the API endpoint
+      const response = await axios.get("http://209.38.208.60/api/v1/email"); // Adjust the API endpoint
       setEmail(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -39,7 +39,7 @@ const BootstrapTable5 = () => {
 
     try {
       const response = await axios.delete(
-        `https://kiglerserver.com/api/v1/email/${emailId}`
+        `http://209.38.208.60/api/v1/email/${emailId}`
       );
       setStatus(!status);
     } catch (error) {

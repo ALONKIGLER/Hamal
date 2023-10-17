@@ -22,7 +22,7 @@ const loginSchema = Yup.object().shape({
     .required("אנא הזן סוג סיוע"),
   assistanceDetails: Yup.string()
     // .min(3, "תיאור הבקשה צריך לכלול לפחות 3 תוויים ")
-    .max(50, " תיאור הבקשה לכלול לכל היותר 50 תוויים "),
+    .max(250, " תיאור הבקשה לכלול לכל היותר 250 תוויים "),
   // .required("אנא הזן מספר את "),
   // password: Yup.string()
   //   .min(5, "Your password must be at least 5 characters long")
@@ -67,7 +67,7 @@ const FormValidation = () => {
   // //   if (verification) {
   // //     try {
   // //       const response = await axios.post(
-  // //         "https://kiglerserver.com/api/v1/citizen",
+  // //         "http://209.38.208.60/api/v1/citizen",
   // //         formData
   // //       );
   // //       setSuccessMessage("Form submitted successfully!"); // Set success message
@@ -175,7 +175,7 @@ const FormValidation = () => {
                       if (verification) {
                         try {
                           const response = await axios.post(
-                            "https://kiglerserver.com/api/v1/citizen",
+                            "http://209.38.208.60/api/v1/citizen/",
                             form
                           );
                           setSuccessMessage("Form submitted successfully!"); // Set success message
@@ -289,20 +289,20 @@ const FormValidation = () => {
                                 />
                                 <option
                                   value="ישראל בידור"
-                                  label="ישראל בידור"
+                                  label=" חמל ישראל בידור"
                                 />
                                 <option value="כללי" label="כללי" />
                                 <option value="דיור" label="דיור" />
-                                <option value="נעדר" label="נעדר" />
+                                {/* <option value="נעדר" label="נעדר" /> */}
                                 <option value="מזון" label="מזון" />
-                                <option value="פצוע" label="פצוע" />
+                                {/* <option value="פצוע" label="פצוע" /> */}
                                 <option value="כלכלי" label="כלכלי" />
-                                <option value="מנהלים" label="מנהלים" />
-                                <option value="חמל לאודר " label="חמל לאודר " />
-                                <option value="חבל לכיש" label="חבל לכיש" />
+                                {/* <option value="מנהלים" label="מנהלים" /> */}
+                                {/* <option value="חמל לאודר " label="חמל לאודר " /> */}
+                                <option value="חבל לכיש" label="חמל חבל לכיש" />
                                 <option
                                   value="קפה הספסל ברמת גן"
-                                  label="קפה הספסל ברמת גן"
+                                  label=" חמל קפה הספסל ברמת גן"
                                 />
 
                                 {/* Add more options as needed */}

@@ -87,9 +87,7 @@ const BootstrapTable = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(
-        "https://kiglerserver.com/api/v1/product"
-      ); // Adjust the API endpoint
+      const response = await axios.get("http://209.38.208.60/api/v1/product"); // Adjust the API endpoint
       setProducts(response.data);
       setStatus(!status);
     } catch (error) {
