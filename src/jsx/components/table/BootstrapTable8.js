@@ -38,7 +38,11 @@ const BootstrapTable = () => {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
         setAuthUser(true);
-        setUser(user.email);
+        setUser(user.email)
+        console.log(user);
+        console.log(user.accessToken);
+        setToken(user.accessToken)
+
         console.log("lol");
         if (user.email === "cyber@gmail.com" || user.email === "k@gmail.com") {
           fetchOrders();
@@ -110,7 +114,7 @@ const BootstrapTable = () => {
 
       try {
           const response = await axios.get(
-        "https://kiglerserver.com/api/v1/citizen",
+        "http://209.38.208.60/api/v1/citizen",
         {
           headers: {
             Authorization: `Bearer ${Token}`, // Add the token to the Authorization header
@@ -126,6 +130,7 @@ const BootstrapTable = () => {
             setStatus22(!status22);
           } catch (error) {
             console.error("Error fetching orders:", error);
+            setAuthUser(false);
           }
         }
   };
