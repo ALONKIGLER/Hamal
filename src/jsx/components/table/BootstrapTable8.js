@@ -30,6 +30,7 @@ const BootstrapTable = () => {
   const [userName, setUserName] = useState("");
   const [user, setUser] = useState("");
   const [citizenConst, setcitizenConst] = useState([]);
+  const [Token, setToken] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -40,7 +41,7 @@ const BootstrapTable = () => {
         setAuthUser(true);
         setUser(user.email);
         setToken(user.accessToken);
-        console.log("lol", user.accessToken);
+        console.log("lol");
         if (user.email === "cyber@gmail.com" || user.email === "k@gmail.com") {
           fetchOrders();
         }
@@ -79,7 +80,6 @@ const BootstrapTable = () => {
   const [notice, setNotice] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [del, setDel] = useState(false);
-  const [Token, setToken] = useState("");
 
   const handleSubmit2 = async (e) => {
     e.preventDefault();
@@ -122,11 +122,11 @@ const BootstrapTable = () => {
           (item) => item.assistanceType === "התקפת סייבר"
         );
         setcitizenConst(filteredData);
-
         setcitizen(filteredData);
         setStatus22(!status22);
       } catch (error) {
         console.error("Error fetching orders:", error);
+        setAuthUser(true);
       }
     }
   };
@@ -179,7 +179,6 @@ const BootstrapTable = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("product:", formData);
@@ -359,7 +358,7 @@ const BootstrapTable = () => {
                         </div>
                       </div>
                     </div>
-                    <p> פניות- התקפות סייבר</p>
+                    <p>פניות - התקפת סייבר </p>
                   </Card.Title>
                 </Card.Header>
                 <Card.Body>
@@ -380,7 +379,7 @@ const BootstrapTable = () => {
                           <strong>תאריך</strong>
                         </th>
                         <th style={{ textAlign: "right", margin: "auto" }}>
-                          <strong>סטאטוס</strong>
+                          <strong>סטטוס</strong>
                         </th>
                         <th style={{ textAlign: "right", margin: "auto" }}>
                           <strong>שם אחראי</strong>
@@ -507,7 +506,7 @@ const BootstrapTable = () => {
                         style={{ textAlign: "right", margin: "auto" }}
                       >
                         {" "}
-                        <label>סטאטוס</label>
+                        <label>סטטוס</label>
                         <select
                           style={{ textAlign: "right", margin: "auto" }}
                           name="status"
